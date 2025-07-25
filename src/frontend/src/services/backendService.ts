@@ -37,4 +37,17 @@ export const backendService = {
   async sendLlmPrompt(prompt: string): Promise<string> {
     return await backend.prompt(prompt);
   },
+
+  /**
+   * Generates a cryptographically secure random number
+   * @returns Promise with the generated random number
+   */
+  async generateRandomNumber(): Promise<bigint> {
+    const result = await backend.generate_random_number();
+    if ("Ok" in result) {
+      return result.Ok;
+    } else {
+      throw new Error(result.Err);
+    }
+  },
 };
