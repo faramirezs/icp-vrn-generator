@@ -8,7 +8,7 @@
 - `src/frontend/src/App.tsx` - Main app component where the new RandomGeneratorView will be integrated.
 - `src/declarations/backend/` - Auto-generated TypeScript declarations (will be updated after Candid generation).
 - `tests/src/backend.test.ts` - Backend integration tests where random number generation tests will be added.
-- `src/frontend/tests/views/RandomGeneratorView.test.tsx` - Unit tests for the new RandomGeneratorView component (to be created).
+- `src/frontend/tests/views/RandomGeneratorView.test.tsx` - Unit tests for the new RandomGeneratorView component with comprehensive test coverage.
 - `src/frontend/tests/services/backendService.test.ts` - Service layer tests for the new generateRandomNumber function (to be created).
 
 ### Notes
@@ -54,8 +54,8 @@
 
 - [ ] 4.0 Add Comprehensive Testing
 
-  - [ ] 4.1 Create `src/frontend/src/views/RandomGeneratorView.test.tsx` with component rendering tests
-  - [ ] 4.2 Add unit tests for button click behavior and loading states
+  - [x] 4.1 Create `src/frontend/src/views/RandomGeneratorView.test.tsx` with component rendering tests
+  - [x] 4.2 Add unit tests for button click behavior and loading states
   - [ ] 4.3 Test error handling scenarios with mock backend failures
   - [ ] 4.4 Create `src/frontend/src/services/backendService.test.ts` for service layer testing
   - [ ] 4.5 Add backend integration tests in `tests/src/backend.test.ts` for the new function
