@@ -1,3 +1,4 @@
+use ic_cdk::api::management_canister::main::raw_rand;
 use ic_cdk::export_candid;
 use std::cell::RefCell;
 
@@ -49,6 +50,26 @@ fn set_count(value: u64) -> u64 {
         *counter.borrow_mut() = value;
         value
     })
+}
+
+#[ic_cdk::update]
+async fn generate_random_number() -> Result<u64, String> {
+    match raw_rand().await {
+        Ok((random_bytes,)) => {
+            // Convert the first 8 bytes to u64 for decimal display
+            if random_bytes.len() < 8 {
+                return Err("Insufficient random bytes received".to_string());
+            }
+
+            // Take the first 8 bytes and convert to u64
+            let mut bytes = [0u8; 8];
+            bytes.copy_from_slice(&random_bytes[0..8]);
+            let random_number = u64::from_be_bytes(bytes);
+
+            Ok(random_number)
+        }
+        Err(e) => Err(format!("Failed to generate random number: {:?}", e)),
+    }
 }
 
 export_candid!();

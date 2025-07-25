@@ -21,13 +21,13 @@
 
 - [ ] 1.0 Implement Backend Random Number Generation
 
-  - [ ] 1.1 Add the `ic_cdk::api::management_canister::raw_rand` import to `src/backend/src/lib.rs`
-  - [ ] 1.2 Create the `generate_random_number()` async function with `#[ic_cdk::update]` macro
-  - [ ] 1.3 Implement error handling for `raw_rand()` API call failures
-  - [ ] 1.4 Convert the raw bytes from `raw_rand()` to a `u64` decimal number using `u64::from_be_bytes()`
-  - [ ] 1.5 Return `Result<u64, String>` to handle both success and error cases
-  - [ ] 1.6 Update `src/backend/backend.did` Candid interface to include the new function signature
-  - [ ] 1.7 Run `npm run generate-candid` to update TypeScript declarations
+  - [x] 1.1 Add the `ic_cdk::api::management_canister::raw_rand` import to `src/backend/src/lib.rs`
+  - [x] 1.2 Create the `generate_random_number()` async function with `#[ic_cdk::update]` macro
+  - [x] 1.3 Implement error handling for `raw_rand()` API call failures
+  - [x] 1.4 Convert the raw bytes from `raw_rand()` to a `u64` decimal number using `u64::from_be_bytes()`
+  - [x] 1.5 Return `Result<u64, String>` to handle both success and error cases
+  - [x] 1.6 Update `src/backend/backend.did` Candid interface to include the new function signature
+  - [x] 1.7 Run `npm run generate-candid` to update TypeScript declarations
 
 - [ ] 2.0 Create Frontend Random Generator View
 

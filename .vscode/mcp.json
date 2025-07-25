@@ -1,9 +1,9 @@
 {
-	"servers": {
-		"context7": {
-			"url": "https://server.smithery.ai/@upstash/context7-mcp/mcp?api_key=38cb84d7-e9c5-4895-b13e-ccb42454bfa8&profile=shallow-hookworm-VrVWv9",
-			"type": "http"
-		}
-	},
-	"inputs": []
+  "servers": {
+    "context7": {
+      "url": "https://server.smithery.ai/@upstash/context7-mcp/mcp?api_key=38cb84d7-e9c5-4895-b13e-ccb42454bfa8&profile=shallow-hookworm-VrVWv9",
+      "type": "http"
+    }
+  },
+  "inputs": []
 }

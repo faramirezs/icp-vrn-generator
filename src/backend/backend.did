@@ -9,10 +9,12 @@ type ChatMessage = variant {
   system : record { content : text };
 };
 type FunctionCall = record { name : text; arguments : vec ToolCallArgument };
+type Result = variant { Ok : nat64; Err : text };
 type ToolCall = record { id : text; function : FunctionCall };
 type ToolCallArgument = record { value : text; name : text };
 service : {
   chat : (vec ChatMessage) -> (text);
+  generate_random_number : () -> (Result);
   get_count : () -> (nat64) query;
   greet : (text) -> (text) query;
   increment : () -> (nat64);
