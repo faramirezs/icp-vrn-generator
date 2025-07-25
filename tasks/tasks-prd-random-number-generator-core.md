@@ -19,7 +19,7 @@
 
 ## Tasks
 
-- [ ] 1.0 Implement Backend Random Number Generation
+- [x] 1.0 Implement Backend Random Number Generation
 
   - [x] 1.1 Add the `ic_cdk::api::management_canister::raw_rand` import to `src/backend/src/lib.rs`
   - [x] 1.2 Create the `generate_random_number()` async function with `#[ic_cdk::update]` macro

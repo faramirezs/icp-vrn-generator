@@ -76,4 +76,81 @@ describe("Vibe Coding Template Backend", () => {
     const currentCount = await actor.get_count();
     expect(currentCount).toEqual(newValue);
   });
+
+  it("should generate random numbers successfully", async () => {
+    // Test that the function exists and is callable
+    expect(typeof actor.generate_random_number).toBe("function");
+
+    try {
+      const result = await actor.generate_random_number();
+
+      // Check that we get a successful result
+      expect(result).toHaveProperty("Ok");
+      expect(result).not.toHaveProperty("Err");
+
+      if ("Ok" in result) {
+        const randomNumber = result.Ok;
+        expect(typeof randomNumber).toBe("bigint");
+        expect(randomNumber).toBeGreaterThanOrEqual(BigInt(0));
+        expect(randomNumber).toBeLessThanOrEqual(
+          BigInt("18446744073709551615"),
+        ); // u64 max
+      }
+    } catch (error) {
+      // Catch any deployment or canister errors
+      console.error("Random number generation failed:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `generate_random_number function failed: ${errorMessage}`,
+      );
+    }
+  });
+
+  it("should generate different random numbers on multiple calls", async () => {
+    // Test that the function exists
+    expect(typeof actor.generate_random_number).toBe("function");
+
+    try {
+      const results = await Promise.all([
+        actor.generate_random_number(),
+        actor.generate_random_number(),
+        actor.generate_random_number(),
+      ]);
+
+      // All should be successful
+      results.forEach((result, index) => {
+        expect(result).toHaveProperty("Ok");
+        if ("Err" in result) {
+          throw new Error(`Call ${index + 1} failed with error: ${result.Err}`);
+        }
+      });
+
+      // Extract the numbers
+      const numbers = results.map((result) =>
+        "Ok" in result ? result.Ok : null,
+      );
+
+      // Check that at least one number is different (extremely unlikely they're all the same)
+      const uniqueNumbers = new Set(numbers.map((n) => n?.toString()));
+      expect(uniqueNumbers.size).toBeGreaterThan(1);
+    } catch (error) {
+      console.error("Multiple random number generation failed:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `Multiple generate_random_number calls failed: ${errorMessage}`,
+      );
+    }
+  });
+
+  it("should properly export generate_random_number in Candid interface", async () => {
+    // Check that the function is properly declared in the actor interface
+    expect(actor.generate_random_number).toBeDefined();
+    expect(typeof actor.generate_random_number).toBe("function");
+
+    // Verify the function signature by checking it can be called
+    const result = await actor.generate_random_number();
+    expect(result).toHaveProperty("Ok");
+  });
 });
