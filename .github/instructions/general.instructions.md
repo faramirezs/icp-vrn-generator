@@ -4,6 +4,14 @@ applyTo: "**"
 
 # General Instructions
 
+## Tool calling for documentation
+
+- You can use the `context7` tool to research documentation for the DFINITY SDK, Internet Computer, and related libraries.
+- Use `context7` tool to research this docs:
+  /dfinity/cdk-rs
+  /dfinity/ic
+  /dfinity/sdk
+
 ## Project Context
 
 - This is an Internet Computer Protocol (ICP) project using Rust for canister development with PocketIC and Vitest for testing.
