@@ -213,7 +213,10 @@ export function RandomGeneratorView({
                                       Entry Size:
                                     </span>
                                     <span className="ml-1 text-gray-200">
-                                      {JSON.stringify(entry).length} bytes
+                                      {JSON.stringify({
+                                        ...entry,
+                                        number: entry.number.toString()
+                                      }).length} bytes
                                     </span>
                                   </div>
                                 </div>
