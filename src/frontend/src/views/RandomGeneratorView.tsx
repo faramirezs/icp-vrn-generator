@@ -77,7 +77,6 @@ export function RandomGeneratorView({
   return (
     <Card title="">
       <div className="space-y-4">
-
         {/* History Section */}
         <div className="border-gray-600">
           <Button
@@ -265,8 +264,6 @@ export function RandomGeneratorView({
             Generate Random Number
           </Button>
         </div>
-
-
       </div>
     </Card>
   );
