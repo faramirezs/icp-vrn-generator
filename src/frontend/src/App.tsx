@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ReactIcon from "../assets/React-icon.webp";
+import DiceAnimation from "./components/DiceAnimation";
 
 // Import components and views
 import { Loader, ErrorDisplay } from "./components";
@@ -13,9 +13,7 @@ function App() {
     setError(errorMessage);
   };
 
-  const logoStyle = {
-    animation: "logo-spin 60s linear infinite",
-  };
+  // ...existing code...
 
   return (
     <>
@@ -34,19 +32,16 @@ function App() {
       <div className="flex min-h-screen items-center justify-center bg-gray-800 text-white">
         <div className="mx-auto w-full max-w-4xl space-y-8 p-8 text-center">
           <div className="mb-8">
-            <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-              <img
-                src={ReactIcon}
-                className="mx-auto h-24 p-6 will-change-[filter] hover:drop-shadow-[0_0_2em_#61dafbaa] motion-reduce:animate-none"
-                style={logoStyle}
-                alt="React logo"
-              />
-            </a>
+            <DiceAnimation />
           </div>
 
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold">Vibe Coding Template</h1>
-            <h2 className="text-xl">React + Rust + Internet Computer</h2>
+            <h1 className="text-4xl font-bold">
+              ICP Auditable Random Number Service
+            </h1>
+            <h2 className="text-xl">
+              Cryptographically Secure Random Numbers with Full Audit Trail
+            </h2>
           </div>
 
           {/* Content Sections */}
