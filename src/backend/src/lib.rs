@@ -97,7 +97,7 @@ async fn generate_random_number() -> Result<u64, String> {
             // Capture call context for audit trail
             let caller = ic_cdk::api::caller();
             let timestamp = ic_cdk::api::time();
-            
+
             // Generate sequence ID and increment counter
             let sequence_id = SEQUENCE_COUNTER.with(|counter| {
                 let current = *counter.borrow();

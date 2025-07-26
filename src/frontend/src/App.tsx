@@ -3,12 +3,7 @@ import ReactIcon from "../assets/React-icon.webp";
 
 // Import components and views
 import { Loader, ErrorDisplay } from "./components";
-import {
-  GreetingView,
-  CounterView,
-  LlmPromptView,
-  RandomGeneratorView,
-} from "./views";
+import { RandomGeneratorView } from "./views";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -56,20 +51,11 @@ function App() {
 
           {/* Content Sections */}
           <div className="space-y-6">
-            {/* Greeting Section */}
-            <GreetingView onError={handleError} setLoading={setLoading} />
-
-            {/* Counter Section */}
-            <CounterView onError={handleError} setLoading={setLoading} />
-
             {/* Random Number Generator Section */}
             <RandomGeneratorView
               onError={handleError}
               setLoading={setLoading}
             />
-
-            {/* LLM Prompt Section */}
-            <LlmPromptView onError={handleError} setLoading={setLoading} />
           </div>
 
           {/* Loading and Error States */}

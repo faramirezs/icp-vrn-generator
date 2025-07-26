@@ -1,4 +1,11 @@
 import { backend } from "../../../declarations/backend";
+import {
+  RandomNumberEntry,
+  SequenceIntegrityStatus,
+  convertRandomNumberEntry,
+  convertSequenceIntegrityStatus,
+  HistoryApiResponse,
+} from "../types/history";
 
 /**
  * Service for handling all backend canister API calls
@@ -48,6 +55,74 @@ export const backendService = {
       return result.Ok;
     } else {
       throw new Error(result.Err);
+    }
+  },
+
+  /**
+   * Fetches the complete random number history
+   * @returns Promise with the history entries (most recent first)
+   */
+  async getRandomHistory(): Promise<HistoryApiResponse<RandomNumberEntry[]>> {
+    try {
+      const backendEntries = await backend.get_random_history();
+      const convertedEntries = backendEntries.map(convertRandomNumberEntry);
+      return {
+        success: true,
+        data: convertedEntries,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to fetch history",
+      };
+    }
+  },
+
+  /**
+   * Gets the current count of history entries
+   * @returns Promise with the count of stored entries
+   */
+  async getHistoryCount(): Promise<HistoryApiResponse<number>> {
+    try {
+      const count = await backend.get_history_count();
+      return {
+        success: true,
+        data: Number(count),
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch history count",
+      };
+    }
+  },
+
+  /**
+   * Verifies the integrity of the sequence numbers in the history
+   * @returns Promise with the integrity status
+   */
+  async verifySequenceIntegrity(): Promise<
+    HistoryApiResponse<SequenceIntegrityStatus>
+  > {
+    try {
+      const backendStatus = await backend.verify_sequence_integrity();
+      const convertedStatus = convertSequenceIntegrityStatus(backendStatus);
+      return {
+        success: true,
+        data: convertedStatus,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to verify sequence integrity",
+      };
     }
   },
 };
