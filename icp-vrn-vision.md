@@ -2,7 +2,7 @@
 
 ### **Revolutionizing Blockchain Randomness with Internet Computer Protocol**
 
-**TrustRand** transforms how the web consumes cryptographically secure randomness by combining ICP's native `raw_rand()` capabilities with the revolutionary x402 payment protocol. While other blockchains struggle with expensive, slow, and oracle-dependent randomness solutions, we deliver **instant**, **gas-free**, **verifiable** random numbers with a complete audit trail.
+**icp-vrn** transforms how the web consumes cryptographically secure randomness by combining ICP's native `raw_rand()` capabilities with the revolutionary x402 payment protocol. While other blockchains struggle with expensive, slow, and oracle-dependent randomness solutions, we deliver **instant**, **gas-free**, **verifiable** random numbers with a complete audit trail.
 
 ---
 
@@ -12,7 +12,7 @@
 ICP's `raw_rand()` provides cryptographically secure randomness through threshold BLS signatures, but it doesn't generate standalone VRN (Verifiable Random Number) proofs that can be independently verified without trusting the ICP chain itself. This creates a verification gap for applications requiring third-party auditing or cross-chain validation.
 
 **Our Innovation - Beyond Traditional VRF:**
-TrustRand solves this by building a **comprehensive audit system** that's actually superior to traditional VRF proofs:
+icp-vrn solves this by building a **comprehensive audit system** that's actually superior to traditional VRF proofs:
 
 ```rust
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, candid::CandidType)]
@@ -274,4 +274,4 @@ async fn generate_random_number() -> Result<u64, String> {
 5. **Future Vision**: Positions for the emerging x402 economy and AI agent marketplace
 6. **Superior Architecture**: Audit system that surpasses traditional VRF proof limitations
 
-**TrustRand isn't just a random number generator - it's the foundation for trustless, auditable randomness in the x402-enabled web of tomorrow, with verification capabilities that go beyond what any blockchain has offered before.**
+**icp-vrn isn't just a random number generator - it's the foundation for trustless, auditable randomness in the x402-enabled web of tomorrow, with verification capabilities that go beyond what any blockchain has offered before.**
