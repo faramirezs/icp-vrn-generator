@@ -4,6 +4,32 @@ use std::cell::RefCell;
 
 use ic_llm::{ChatMessage, Model};
 
+// Data structures for random number history tracking and auditing
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize, candid::CandidType)]
+pub struct RandomNumberEntry {
+    pub number: u64,
+    pub timestamp: u64,
+    pub sequence_id: u64,
+    pub call_context: CallContext,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize, candid::CandidType)]
+pub struct CallContext {
+    pub caller_principal: Option<String>,
+    pub execution_round: u64,
+    pub canister_version: u64,
+    pub cycles_consumed: u64,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize, candid::CandidType)]
+pub struct SequenceIntegrityStatus {
+    pub is_valid: bool,
+    pub total_entries: u64,
+    pub expected_sequence_range: (u64, u64), // (min, max)
+    pub detected_gaps: Vec<u64>,             // sequence IDs that are missing
+    pub error_message: Option<String>,
+}
+
 #[ic_cdk::update]
 async fn prompt(prompt_str: String) -> String {
     ic_llm::prompt(Model::Llama3_1_8B, prompt_str).await
@@ -23,6 +49,8 @@ async fn chat(messages: Vec<ChatMessage>) -> String {
 
 thread_local! {
     static COUNTER: RefCell<u64> = const { RefCell::new(0) };
+    static RANDOM_HISTORY: RefCell<Vec<RandomNumberEntry>> = const { RefCell::new(Vec::new()) };
+    static SEQUENCE_COUNTER: RefCell<u64> = const { RefCell::new(0) };
 }
 
 #[ic_cdk::query]
@@ -70,6 +98,87 @@ async fn generate_random_number() -> Result<u64, String> {
         }
         Err(e) => Err(format!("Failed to generate random number: {:?}", e)),
     }
+}
+
+#[ic_cdk::query]
+fn get_random_history() -> Vec<RandomNumberEntry> {
+    RANDOM_HISTORY.with(|history| {
+        let mut entries = history.borrow().clone();
+        // Return in reverse chronological order (most recent first)
+        entries.reverse();
+        entries
+    })
+}
+
+#[ic_cdk::query]
+fn verify_sequence_integrity() -> SequenceIntegrityStatus {
+    RANDOM_HISTORY.with(|history| {
+        let entries = history.borrow();
+        let total_entries = entries.len() as u64;
+
+        if total_entries == 0 {
+            return SequenceIntegrityStatus {
+                is_valid: true,
+                total_entries: 0,
+                expected_sequence_range: (0, 0),
+                detected_gaps: Vec::new(),
+                error_message: None,
+            };
+        }
+
+        // Get all sequence IDs and sort them
+        let mut sequence_ids: Vec<u64> = entries.iter().map(|entry| entry.sequence_id).collect();
+        sequence_ids.sort();
+
+        let min_seq = sequence_ids[0];
+        let max_seq = sequence_ids[sequence_ids.len() - 1];
+        let expected_range = (min_seq, max_seq);
+
+        // Check for gaps in sequence
+        let mut detected_gaps = Vec::new();
+        for i in min_seq..=max_seq {
+            if !sequence_ids.contains(&i) {
+                detected_gaps.push(i);
+            }
+        }
+
+        let is_valid = detected_gaps.is_empty();
+        let error_message = if !is_valid {
+            Some(format!("Found {} gaps in sequence", detected_gaps.len()))
+        } else {
+            None
+        };
+
+        SequenceIntegrityStatus {
+            is_valid,
+            total_entries,
+            expected_sequence_range: expected_range,
+            detected_gaps,
+            error_message,
+        }
+    })
+}
+
+#[ic_cdk::query]
+fn get_history_count() -> u64 {
+    RANDOM_HISTORY.with(|history| history.borrow().len() as u64)
+}
+
+// Helper function to maintain maximum 1000 entries using circular buffer behavior
+fn clear_old_entries() {
+    RANDOM_HISTORY.with(|history| {
+        let mut entries = history.borrow_mut();
+        const MAX_ENTRIES: usize = 1000;
+        
+        if entries.len() > MAX_ENTRIES {
+            // Remove oldest entries (from the beginning) to maintain the limit
+            let excess = entries.len() - MAX_ENTRIES;
+            entries.drain(0..excess);
+            
+            // Log cleanup action for debugging (using ic_cdk::println! for canister logs)
+            ic_cdk::println!("Cleaned up {} old entries, now storing {} entries", excess, entries.len());
+        }
+    });
 }
 
 export_candid!();

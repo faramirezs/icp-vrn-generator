@@ -53,9 +53,18 @@ The Random Number History feature enhances the existing random number generator 
    3.4. The system must maintain backward compatibility with existing functionality
 
 4. **Data Structure Requirements**
-   4.1. Each history entry must contain: random number (u64), timestamp (u64), and optional ID
-   4.2. The storage must be implemented as a Vec<RandomNumberEntry> in thread_local storage
-   4.3. The system must provide proper serialization for stable storage if needed
+   4.1. Each history entry must contain: random number (u64), timestamp (u64), sequence_id (u64), and call_context (CallContext)
+   4.2. The sequence_id must be auto-incrementing and globally unique for ordering verification
+   4.3. The call_context must capture caller principal, execution metadata, and resource consumption
+   4.4. The storage must be implemented as a Vec<RandomNumberEntry> in thread_local storage
+   4.5. The system must provide proper serialization for stable storage if needed
+
+5. **Auditing Requirements**
+   5.1. The system must generate sequential, gap-free sequence numbers for audit trail integrity
+   5.2. The system must capture and store the caller's principal ID for each request
+   5.3. The system must record execution metadata including canister version and cycles consumed
+   5.4. The system must provide query functions to verify sequence integrity and detect tampering
+   5.5. The system must maintain immutable audit logs that cannot be modified after creation
 
 ## Non-Goals (Out of Scope)
 
@@ -76,7 +85,16 @@ The Random Number History feature enhances the existing random number generator 
 struct RandomNumberEntry {
     pub number: u64,
     pub timestamp: u64,
-    pub id: u64, // Auto-incrementing ID for ordering
+    pub sequence_id: u64,        // Auto-incrementing sequence for ordering verification
+    pub call_context: CallContext, // Request metadata for auditing
+}
+
+#[derive(Clone, Debug)]
+struct CallContext {
+    pub caller_principal: Option<String>, // Principal ID of the caller
+    pub execution_round: u64,            // IC execution round (if available)
+    pub canister_version: u64,           // Canister version at time of call
+    pub cycles_consumed: u64,            // Cycles used for the operation
 }
 ```
 
@@ -85,7 +103,9 @@ struct RandomNumberEntry {
 - Extend existing `RandomGeneratorView` with a collapsible history section
 - Use consistent Tailwind CSS styling matching existing components
 - Implement loading states and error handling following current patterns
-- Display format: "Number: 123456789 | Generated: 2025-01-15 14:30:22"
+- Display format: "Seq #123: 123456789 | Generated: 2025-01-15 14:30:22 | Caller: abc123..."
+- Include expandable details showing full call context and audit metadata
+- Add sequence gap detection and validation indicators in the UI
 
 ### Storage Management
 
@@ -99,15 +119,31 @@ struct RandomNumberEntry {
 
 - Use `ic_cdk::api::time()` for consensus-based timestamps
 - Implement thread_local storage similar to existing COUNTER pattern
-- Add new functions: `get_random_history()` and `clear_old_entries()`
-- Modify `generate_random_number()` to automatically store results
+- Add new functions: `get_random_history()`, `verify_sequence_integrity()`, and `clear_old_entries()`
+- Modify `generate_random_number()` to automatically store results with full audit context
+- Capture caller principal using `ic_cdk::api::caller()`
+- Record canister version and cycles consumed for each operation
+- Implement sequence number generation with gap detection
 
 ### Frontend Integration
 
-- Add new service function `getRandomHistory()` in `backendService.ts`
-- Extend `RandomGeneratorView` component with history display section
-- Implement proper TypeScript types for `RandomNumberEntry`
-- Add loading and error states for history fetching
+- Add new service functions `getRandomHistory()` and `verifySequenceIntegrity()` in `backendService.ts`
+- Extend `RandomGeneratorView` component with expandable history section showing audit details
+- Implement proper TypeScript types for `RandomNumberEntry` and `CallContext`
+- Add loading and error states for history fetching and integrity verification
+- Display sequence gaps or validation errors prominently in the UI
+- Include audit trail summary showing total entries, sequence range, and integrity status
+
+### On-Chain Auditing Capabilities
+
+- **Consensus Timestamps**: All timestamps are IC consensus-based, making them immutable and verifiable
+- **Sequence Integrity**: Auto-incrementing sequence numbers enable detection of missing or tampered entries
+- **Caller Traceability**: Each entry records the principal ID of the requesting entity
+- **Execution Context**: Captures canister version, cycles consumed, and execution metadata
+- **Canister State Auditing**: All random number storage is part of the canister's certified state
+- **Call Traceability**: Each `raw_rand()` call is recorded in IC's execution history
+- **Cryptographic Verification**: Numbers can be cryptographically verified as legitimate IC-generated randomness
+- **Audit Trail Integrity**: Sequence gaps and inconsistencies can be programmatically detected
 
 ### Performance Considerations
 
@@ -115,32 +151,47 @@ struct RandomNumberEntry {
 - Limit initial display to prevent UI performance issues
 - Consider lazy loading if history grows very large
 
+### Auditing Limitations
+
+- **No Direct Beacon Access**: Cannot access underlying random beacon rounds directly
+- **No Block Publishing**: IC doesn't expose specific consensus rounds per random generation
+- **Indirect Traceability**: Must rely on canister state and timestamps rather than blockchain block numbers
+
 ## Success Metrics
 
 1. **Functional Success**
 
-   - 100% of generated random numbers are successfully stored with timestamps
-   - History display loads within 2 seconds for up to 1000 entries
+   - 100% of generated random numbers are successfully stored with timestamps and complete audit context
+   - Sequence numbers are gap-free and properly incremented for all entries
+   - History display loads within 2 seconds for up to 1000 entries including audit metadata
    - Zero data loss during automatic cleanup operations
+   - Audit trail integrity verification passes for all stored entries
 
 2. **User Experience Success**
 
-   - Users can view complete generation history immediately after generating numbers
+   - Users can view complete generation history with audit details immediately after generating numbers
    - History display is readable and properly formatted on all screen sizes
+   - Sequence integrity status is clearly visible and understandable
    - No impact on random number generation performance
+   - Audit information is accessible but not overwhelming in the default view
 
 3. **Technical Success**
-   - Candid interface properly updated with new functions
+   - Candid interface properly updated with new audit functions
    - All existing tests continue to pass
-   - New functionality covered by comprehensive unit and integration tests
+   - New audit functionality covered by comprehensive unit and integration tests
+   - Sequence integrity verification functions work correctly
+   - Call context capture works for all types of callers (authenticated and anonymous)
 
 ## Open Questions
 
-1. **Storage Optimization**: Should we implement compression for timestamp storage to save memory?
+1. **Storage Optimization**: Should we implement compression for timestamp and audit metadata storage to save memory?
 2. **Display Limits**: Should we implement virtual scrolling for very large histories, or is simple rendering sufficient?
 3. **Timezone Handling**: Should timestamps be displayed in user's local timezone or UTC?
-4. **Error Recovery**: How should the system handle corrupted history data or storage failures?
+4. **Error Recovery**: How should the system handle corrupted history data or sequence integrity failures?
 5. **Future Scalability**: Should we design the data structure to easily support per-user histories in future versions?
+6. **Audit Retention**: How long should detailed audit metadata be retained vs. summary information only?
+7. **Sequence Recovery**: If sequence gaps are detected, should the system attempt automatic recovery or require manual intervention?
+8. **Call Context Limits**: Should there be size limits on stored call context to prevent memory bloat?
 
 ## Implementation Priority
 

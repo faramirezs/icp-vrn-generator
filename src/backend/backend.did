@@ -2,6 +2,12 @@ type AssistantMessage = record {
   content : opt text;
   tool_calls : vec ToolCall;
 };
+type CallContext = record {
+  execution_round : nat64;
+  canister_version : nat64;
+  cycles_consumed : nat64;
+  caller_principal : opt text;
+};
 type ChatMessage = variant {
   tool : record { content : text; tool_call_id : text };
   user : record { content : text };
@@ -9,15 +15,31 @@ type ChatMessage = variant {
   system : record { content : text };
 };
 type FunctionCall = record { name : text; arguments : vec ToolCallArgument };
+type RandomNumberEntry = record {
+  number : nat64;
+  timestamp : nat64;
+  sequence_id : nat64;
+  call_context : CallContext;
+};
 type Result = variant { Ok : nat64; Err : text };
+type SequenceIntegrityStatus = record {
+  total_entries : nat64;
+  detected_gaps : vec nat64;
+  is_valid : bool;
+  error_message : opt text;
+  expected_sequence_range : record { nat64; nat64 };
+};
 type ToolCall = record { id : text; function : FunctionCall };
 type ToolCallArgument = record { value : text; name : text };
 service : {
   chat : (vec ChatMessage) -> (text);
   generate_random_number : () -> (Result);
   get_count : () -> (nat64) query;
+  get_history_count : () -> (nat64) query;
+  get_random_history : () -> (vec RandomNumberEntry) query;
   greet : (text) -> (text) query;
   increment : () -> (nat64);
   prompt : (text) -> (text);
   set_count : (nat64) -> (nat64);
+  verify_sequence_integrity : () -> (SequenceIntegrityStatus) query;
 }
