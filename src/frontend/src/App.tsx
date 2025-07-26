@@ -15,11 +15,11 @@ function App() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-pink-900 text-white">
-      <div className="mx-auto w-full max-w-4xl space-y-8 rounded-xl border border-white/10 bg-white/5 p-8 text-center shadow-2xl backdrop-blur-sm">
-        <div className="mb-8">
+      <div className="mx-auto w-full max-w-4xl rounded-xl border border-white/10 bg-white/5 p-8 text-center shadow-2xl backdrop-blur-sm">
+        <div>
           <img
             src={Logo}
-            className="logo-spin bounce-gentle mx-auto h-24 p-6 will-change-[filter] hover:drop-shadow-[0_0_2em_#ec4899aa] motion-reduce:animate-none"
+            className="logo-spin bounce-gentle mx-auto h-32 p-6 will-change-[filter] hover:drop-shadow-[0_0_2em_#ec4899aa] motion-reduce:animate-none"
             alt="AiPricePulse logo"
           />
         </div>
