@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ReactIcon from "../assets/React-icon.webp";
+import Logo from "../public/android-chrome-512x512.png";
 
 // Import components and views
 import { Loader, ErrorDisplay } from "./components";
@@ -14,21 +14,23 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-800 text-white">
-      <div className="mx-auto w-full max-w-4xl space-y-8 p-8 text-center">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white">
+      <div className="mx-auto w-full max-w-4xl space-y-8 rounded-xl border border-white/10 bg-white/5 p-8 text-center shadow-2xl backdrop-blur-sm">
         <div className="mb-8">
-          <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-            <img
-              src={ReactIcon}
-              className="logo-spin mx-auto h-24 p-6 will-change-[filter] hover:drop-shadow-[0_0_2em_#61dafbaa] motion-reduce:animate-none"
-              alt="React logo"
-            />
-          </a>
+          <img
+            src={Logo}
+            className="logo-spin mx-auto h-24 p-6 will-change-[filter] hover:drop-shadow-[0_0_2em_#3b82f6aa] motion-reduce:animate-none"
+            alt="AiPricePulse logo"
+          />
         </div>
 
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold">Vibe Coding Template</h1>
-          <h2 className="text-xl">React + Rust + Internet Computer</h2>
+          <h1 className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-4xl font-bold text-transparent">
+            AiPricePulse
+          </h1>
+          <h2 className="text-xl text-gray-300">
+            Intelligent Price Analysis & Random Number Generation
+          </h2>
         </div>
 
         {/* Content Sections */}
@@ -37,11 +39,11 @@ function App() {
           <RandomGeneratorView
             onError={handleError}
             setLoading={setLoading}
+            loading={loading}
           />
         </div>
 
-        {/* Loading and Error States */}
-        {loading && !error && <Loader />}
+        {/* Error States */}
         {!!error && <ErrorDisplay message={error} />}
       </div>
     </div>
