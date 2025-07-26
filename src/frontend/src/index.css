@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+/* DiceAnimation styles */
+.dice-animation .cube {
+  animation: dice-spin 4s linear infinite;
+  transition: animation-duration 0.3s;
+}
+.dice-animation:hover .cube {
+  animation-duration: 2s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dice-animation .cube {
+    animation: none !important;
+  }
+}
+.dice-animation .face {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, #fff 80%, #e0e0e0 100%);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.92);
+}
+.dice-animation .dot {
+  background: #222;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px #000a;
+}
+
+@keyframes dice-spin {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
