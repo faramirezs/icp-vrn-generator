@@ -1,0 +1,56 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="diceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e2e8f0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cbd5e1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="sideGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#cbd5e1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#94a3b8;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="2" flood-color="#1e293b" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Dice shadow -->
+  <path d="M25 75 L60 75 L75 60 L75 25 L60 10 L25 10 Z" fill="#1e293b" opacity="0.2" transform="translate(2,2)"/>
+  
+  <!-- Main dice face (front) -->
+  <rect x="20" y="20" width="50" height="50" rx="8" ry="8" fill="url(#diceGradient)" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- Right side -->
+  <path d="M70 20 L85 5 L85 55 L70 70 Z" fill="url(#sideGradient)" stroke="#64748b" stroke-width="1"/>
+  
+  <!-- Top side -->
+  <path d="M20 20 L35 5 L85 5 L70 20 Z" fill="url(#sideGradient)" stroke="#64748b" stroke-width="1"/>
+  
+  <!-- Dice dots on main face (showing 5) -->
+  <circle cx="30" cy="30" r="3" fill="#1e293b"/>
+  <circle cx="60" cy="30" r="3" fill="#1e293b"/>
+  <circle cx="45" cy="45" r="3" fill="#1e293b"/>
+  <circle cx="30" cy="60" r="3" fill="#1e293b"/>
+  <circle cx="60" cy="60" r="3" fill="#1e293b"/>
+  
+  <!-- Dots on right side (showing 3) -->
+  <circle cx="77" cy="15" r="2" fill="#374151"/>
+  <circle cx="77" cy="35" r="2" fill="#374151"/>
+  <circle cx="77" cy="55" r="2" fill="#374151"/>
+  
+  <!-- Dots on top side (showing 2) -->
+  <circle cx="40" cy="12" r="2" fill="#374151"/>
+  <circle cx="65" cy="12" r="2" fill="#374151"/>
+  
+  <!-- AI/Tech accent -->
+  <circle cx="85" cy="85" r="8" fill="#3b82f6" opacity="0.8">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="85" cy="85" r="3" fill="#ffffff"/>
+  
+  <!-- Pulse rings around tech accent -->
+  <circle cx="85" cy="85" r="12" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.4">
+    <animate attributeName="r" values="8;16;8" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+</svg>
