@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-animation {
+  0% {
+    transform: perspective(150px) rotateX(0deg);
+  }
+  100% {
+    transform: perspective(150px) rotateX(180deg);
+  }
+}
+
+.logo-spin {
+  animation: logo-spin 60s linear infinite;
+}
+
+.loader-animation {
+  animation: loader-animation 1s infinite;
+}
