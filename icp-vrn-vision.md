@@ -31,6 +31,7 @@ fn verify_sequence_integrity() -> SequenceIntegrityStatus {
 ```
 
 **Why Our Approach is Superior:**
+
 - **IC's Consensus Timestamps**: More precise and verifiable than block timestamps
 - **Cryptographically Superior**: Random beacon surpasses block hash randomness
 - **Tamper-Proof Storage**: Canister state automatically certified and immutable
@@ -42,6 +43,7 @@ fn verify_sequence_integrity() -> SequenceIntegrityStatus {
 ### 🌟 **What Makes Us Unique**
 
 **🚀 Native ICP Advantage:**
+
 - **Zero External Dependencies**: No Chainlink VRF, no commit-reveal schemes, no oracles
 - **Sub-Second Generation**: Random numbers in <2 seconds vs minutes on other chains
 - **Cryptographically Secure**: Built on ICP's threshold BLS signature consensus
@@ -49,6 +51,7 @@ fn verify_sequence_integrity() -> SequenceIntegrityStatus {
 - **Instant Finality**: No waiting for block confirmations
 
 **🔐 Enterprise-Grade Auditability Beyond VRF:**
+
 - **Complete History Tracking**: Every random number with timestamp, caller principal, and sequence ID
 - **Integrity Verification**: Built-in gap detection and sequence validation via `verify_sequence_integrity()`
 - **Immutable Audit Trail**: On-chain storage with cryptographic proof of generation
@@ -57,6 +60,7 @@ fn verify_sequence_integrity() -> SequenceIntegrityStatus {
 - **Circular Buffer Management**: Maintains 1000 most recent entries with automatic cleanup
 
 **🔬 Advanced Verification Functions:**
+
 ```rust
 // Current implementation provides comprehensive verification
 #[ic_cdk::query]
@@ -72,11 +76,13 @@ fn get_history_count() -> u64 // Entry count verification
 ### 💡 **The x402 Vision: From Free to Premium**
 
 **Current Implementation:**
+
 - **Free Tier**: Public access via web interface for developers and enthusiasts
 - **Developer-Friendly**: Simple API calls with comprehensive TypeScript/Rust SDK
 - **Complete Audit Trail**: Every generation tracked with full metadata
 
 **x402 Future (Premium Model):**
+
 ```http
 GET /api/random/generate
 HTTP/1.1 402 Payment Required
@@ -87,6 +93,7 @@ x402-recipient: 0x...
 ```
 
 **Revolutionary Monetization:**
+
 - **Pay-Per-Random**: $0.001 USDC per cryptographically secure random number
 - **AI Agent Economy**: Autonomous agents can instantly pay and consume randomness
 - **No Registration**: Payment IS authentication - perfect for x402
@@ -99,29 +106,34 @@ x402-recipient: 0x...
 ### 🎯 **Target Markets**
 
 **🤖 AI Agent Economy:**
+
 - Autonomous agents needing secure randomness for decision-making
 - Gaming bots requiring fair dice rolls and card shuffling
 - Trading algorithms needing unbiased sampling
 
 **🎮 Gaming & Entertainment:**
+
 - NFT trait generation with provable fairness
 - Online casino backends with regulatory compliance
 - Procedural content generation for games
 - Fair loot distribution systems
 
 **🏦 DeFi & Governance:**
+
 - Fair token distributions and airdrops
 - Random validator selection
 - Transparent lottery and raffle systems
 - Governance sampling mechanisms
 
 **🔬 Research & Science:**
+
 - Monte Carlo simulations requiring true randomness
 - Statistical sampling with audit trails
 - Cryptographic key generation
 - Clinical trial randomization with compliance
 
 **🏛️ Compliance & Auditing:**
+
 - Regulatory compliance for gaming operators
 - Financial auditing requiring verifiable randomness
 - Legal proceedings requiring cryptographic proof
@@ -132,6 +144,7 @@ x402-recipient: 0x...
 ### ⚡ **Technical Architecture**
 
 **Backend (Rust on ICP):**
+
 ```rust
 #[ic_cdk::update]
 async fn generate_random_number() -> Result<u64, String> {
@@ -159,6 +172,7 @@ async fn generate_random_number() -> Result<u64, String> {
 ```
 
 **Frontend (React + TypeScript):**
+
 - Modern dice animation with 3D CSS transforms (DiceAnimation component)
 - Real-time history display with expandable audit details
 - Mobile-responsive design with dark theme
@@ -166,6 +180,7 @@ async fn generate_random_number() -> Result<u64, String> {
 - Sequence integrity visualization
 
 **x402 Integration Ready:**
+
 - HTTP-native payment requests
 - Stablecoin payment verification
 - Instant access upon payment confirmation
@@ -175,22 +190,23 @@ async fn generate_random_number() -> Result<u64, String> {
 
 ### 🏆 **Competitive Advantages**
 
-| Feature | icp-vrn (ICP) | Chainlink VRF | Commit-Reveal | Traditional RNG |
-|---------|-----------------|---------------|---------------|-----------------|
-| **Cost** | Free → $0.001 | $2-5+ per request | Variable gas | N/A |
-| **Speed** | <2 seconds | 2-5 minutes | Multiple blocks | Instant but insecure |
-| **Security** | Cryptographic | Cryptographic | Game-theoretic | Pseudorandom |
-| **Audit Trail** | Complete with integrity checks | Limited proof | Manual tracking | None |
-| **VRN Proof** | Enhanced audit system | Standard VRF proof | No proof | No proof |
-| **Dependencies** | None | Oracle network | User cooperation | Centralized |
-| **Sequence Integrity** | Built-in verification | Not provided | Not provided | Not applicable |
-| **Call Context** | Complete metadata | Basic | None | None |
+| Feature                | icp-vrn (ICP)                  | Chainlink VRF      | Commit-Reveal    | Traditional RNG      |
+| ---------------------- | ------------------------------ | ------------------ | ---------------- | -------------------- |
+| **Cost**               | Free → $0.001                  | $2-5+ per request  | Variable gas     | N/A                  |
+| **Speed**              | <2 seconds                     | 2-5 minutes        | Multiple blocks  | Instant but insecure |
+| **Security**           | Cryptographic                  | Cryptographic      | Game-theoretic   | Pseudorandom         |
+| **Audit Trail**        | Complete with integrity checks | Limited proof      | Manual tracking  | None                 |
+| **VRN Proof**          | Enhanced audit system          | Standard VRF proof | No proof         | No proof             |
+| **Dependencies**       | None                           | Oracle network     | User cooperation | Centralized          |
+| **Sequence Integrity** | Built-in verification          | Not provided       | Not provided     | Not applicable       |
+| **Call Context**       | Complete metadata              | Basic              | None             | None                 |
 
 ---
 
 ### 🚀 **Demo & Live Implementation**
 
 **Working Features:**
+
 - ✅ Native ICP `raw_rand()` integration
 - ✅ Complete audit trail with sequence integrity verification
 - ✅ Modern web interface with 3D dice animation
@@ -205,6 +221,7 @@ async fn generate_random_number() -> Result<u64, String> {
 **x402 Endpoint:** `https://your-canister.ic0.app/api/random` (Ready for payment integration)
 
 **Verification Endpoints:**
+
 - `/api/random/history` - Complete audit trail
 - `/api/random/verify-integrity` - Sequence integrity status
 - `/api/random/count` - Entry count verification
@@ -216,6 +233,7 @@ async fn generate_random_number() -> Result<u64, String> {
 **Phase 1 (Current):** ✅ Core randomness service with superior audit trail
 **Phase 2 (Next):** 🔄 x402 payment integration for premium access
 **Phase 3 (Future):**
+
 - Enhanced call context metadata (execution rounds, precise cycle consumption)
 - Multi-format output (binary, hex, custom ranges)
 - Bulk generation with batch discounts
@@ -229,6 +247,7 @@ async fn generate_random_number() -> Result<u64, String> {
 ### 💰 **Business Model Innovation**
 
 **x402 enables revolutionary pricing:**
+
 - **Micropayments**: Charge fractions of a cent per random number
 - **Usage-Based**: Perfect pay-per-use model without subscriptions
 - **Agent-Friendly**: AI agents can autonomously purchase randomness
@@ -237,6 +256,7 @@ async fn generate_random_number() -> Result<u64, String> {
 - **Audit Premium**: Charge for enhanced verification and compliance features
 
 **Market Opportunity:**
+
 - Gaming industry needs billions of random numbers annually
 - DeFi protocols require transparent randomness for governance
 - AI agents represent the fastest-growing consumer segment
@@ -255,6 +275,3 @@ async fn generate_random_number() -> Result<u64, String> {
 6. **Superior Architecture**: Audit system that surpasses traditional VRF proof limitations
 
 **icp-vrn isn't just a random number generator - it's the foundation for trustless, auditable randomness in the x402-enabled web of tomorrow, with verification capabilities that go beyond what any blockchain has offered before.**
-
-
-
