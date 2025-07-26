@@ -25,7 +25,6 @@
 ## Tasks
 
 - [x] 1.0 Remove Unused Template Components and Update Imports
-
   - [x] 1.1 Delete `src/frontend/src/views/GreetingView.tsx` file completely
   - [x] 1.2 Delete `src/frontend/src/views/CounterView.tsx` file completely
   - [x] 1.3 Delete `src/frontend/src/views/LlmPromptView.tsx` file completely

@@ -29,7 +29,6 @@
 - **🟡 NICE TO HAVE** - Enhanced features that improve UX but not critical
 
 - [x] 1.0 **🔴 MUST HAVE** - Implement Backend Data Storage and Core Functions
-
   - [x] 1.1 **🔴** Define `RandomNumberEntry` struct with `number: u64`, `timestamp: u64`, `sequence_id: u64`, and `call_context: CallContext` fields in `src/backend/src/lib.rs`
   - [x] 1.2 **🔴** Define `CallContext` struct with `caller_principal: Option<String>`, `execution_round: u64`, `canister_version: u64`, and `cycles_consumed: u64` fields
   - [x] 1.3 **🔴** Implement thread_local storage for `Vec<RandomNumberEntry>` similar to existing COUNTER pattern using `std::cell::RefCell`
@@ -39,7 +38,6 @@
   - [x] 1.7 **🟡** Add automatic cleanup function `clear_old_entries()` to maintain maximum 1000 entries using circular buffer behavior
 
 - [x] 2.0 **🔴 MUST HAVE** - Modify Random Number Generation to Store History
-
   - [x] 2.1 **🔴** Modify existing `generate_random_number()` function to capture call context using `ic_cdk::api::caller()` and `ic_cdk::api::time()`
   - [x] 2.2 **🔴** Add sequence ID generation and increment logic to each random number generation call
   - [x] 2.3 **🔴** Store `RandomNumberEntry` in thread_local storage after successful random number generation using `raw_rand()`
@@ -48,7 +46,6 @@
   - [x] 2.6 **🔴** Add proper error handling for storage operations without affecting random number generation success/failure
 
 - [x] 3.0 **🔴 MUST HAVE** - Create Basic Frontend History Display
-
   - [x] 3.1 **🔴** Define TypeScript interfaces for `RandomNumberEntry` and `CallContext` in new file `src/frontend/src/types/history.ts`
   - [x] 3.2 **🔴** Add `getRandomHistory()` function to `src/frontend/src/services/backendService.ts` using generated backend declarations
   - [x] 3.3 **🔴** Extend `RandomGeneratorView.tsx` component with collapsible "History" section below existing random number display
@@ -60,7 +57,6 @@
   - [x] 3.9 **🟡** Display appropriate empty state message when no history exists
 
 - [ ] 4.0 **🟡 NICE TO HAVE** - Add Advanced Audit Features and UI Enhancements
-
   - [ ] 4.1 **🟡** Add `verifySequenceIntegrity()` service function to `backendService.ts` for sequence gap detection
   - [ ] 4.2 **🟡** Implement sequence integrity status display in frontend with visual indicators for gaps or validation errors
   - [ ] 4.3 **🟡** Add audit trail summary showing total entries, sequence range, and integrity status
