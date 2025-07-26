@@ -33,7 +33,7 @@ export function Button({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`font-inherit focus:outline-auto cursor-pointer rounded-lg px-5 py-3 text-base font-medium focus:outline-4 focus:outline-blue-400 disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none ${getVariantClasses()} ${className}`.trim()}
+      className={`font-inherit focus:outline-auto cursor-pointer rounded-lg px-5 py-3 text-base font-medium focus:outline-4 focus:outline-blue-400 disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50 ${getVariantClasses()} ${className}`.trim()}
     >
       {children}
     </button>
