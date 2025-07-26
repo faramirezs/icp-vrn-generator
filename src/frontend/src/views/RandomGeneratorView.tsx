@@ -66,6 +66,11 @@ export function RandomGeneratorView({
       setLoading(true);
       const res = await backendService.generateRandomNumber();
       setRandomNumber(res);
+
+      // Refresh history if it's currently open to show the new entry
+      if (isHistoryOpen) {
+        await loadHistory();
+      }
     } catch (err) {
       console.error(err);
       onError(String(err));

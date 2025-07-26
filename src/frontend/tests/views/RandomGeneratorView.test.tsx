@@ -10,6 +10,10 @@ vi.mock("../../src/services/backendService", () => ({
     generateRandomNumber: vi
       .fn()
       .mockResolvedValue(BigInt("12345678901234567890")),
+    getRandomHistory: vi.fn().mockResolvedValue({
+      success: true,
+      data: [],
+    }),
   },
 }));
 
@@ -26,6 +30,10 @@ describe("RandomGeneratorView", () => {
     vi.mocked(backendService.generateRandomNumber).mockResolvedValue(
       BigInt("12345678901234567890"),
     );
+    vi.mocked(backendService.getRandomHistory).mockResolvedValue({
+      success: true,
+      data: [],
+    });
   });
 
   it("should render the random number generator with button and placeholder text", () => {
@@ -46,7 +54,7 @@ describe("RandomGeneratorView", () => {
         "Click the button above to generate a cryptographically secure random number",
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText("Random Number Generator")).toBeInTheDocument();
+    expect(screen.getByText("Generate Random Number")).toBeInTheDocument();
   });
 
   it("should call the generateRandomNumber service and display the result when button is clicked", async () => {
@@ -326,5 +334,37 @@ describe("RandomGeneratorView", () => {
     expect(mockSetLoading).toHaveBeenCalledTimes(2);
     expect(mockSetLoading).toHaveBeenNthCalledWith(1, true);
     expect(mockSetLoading).toHaveBeenNthCalledWith(2, false);
+  });
+
+  it("should refresh history when generating a number while history is open", async () => {
+    // Setup
+    const { backendService } = await import(
+      "../../src/services/backendService"
+    );
+
+    render(
+      <StrictMode>
+        <RandomGeneratorView
+          onError={mockOnError}
+          setLoading={mockSetLoading}
+          loading={false}
+        />
+      </StrictMode>,
+    );
+
+    // Execute - open history first
+    const historyButton = screen.getByText(/History/);
+    await userEvent.click(historyButton);
+
+    // Verify history was loaded when opened
+    expect(backendService.getRandomHistory).toHaveBeenCalledTimes(1);
+
+    // Execute - generate a new number while history is open
+    const generateButton = screen.getByText("Generate Random Number");
+    await userEvent.click(generateButton);
+
+    // Assert - both services should be called
+    expect(backendService.generateRandomNumber).toHaveBeenCalledTimes(1);
+    expect(backendService.getRandomHistory).toHaveBeenCalledTimes(2); // Once for opening, once for refresh
   });
 });
