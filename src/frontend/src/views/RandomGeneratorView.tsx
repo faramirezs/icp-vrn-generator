@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Button, Card } from "../components";
+import { Button, Card, Loader } from "../components";
 import { backendService } from "../services/backendService";
 import { RandomNumberEntry } from "../types/history";
 
 interface RandomGeneratorViewProps {
   onError: (error: string) => void;
   setLoading: (loading: boolean) => void;
+  loading: boolean;
 }
 
 /**
@@ -14,6 +15,7 @@ interface RandomGeneratorViewProps {
 export function RandomGeneratorView({
   onError,
   setLoading,
+  loading,
 }: RandomGeneratorViewProps) {
   const [randomNumber, setRandomNumber] = useState<bigint | null>(null);
   const [history, setHistory] = useState<RandomNumberEntry[]>([]);
@@ -64,6 +66,11 @@ export function RandomGeneratorView({
       setLoading(true);
       const res = await backendService.generateRandomNumber();
       setRandomNumber(res);
+
+      // Refresh history if it's currently open to show the new entry
+      if (isHistoryOpen) {
+        await loadHistory();
+      }
     } catch (err) {
       console.error(err);
       onError(String(err));
@@ -73,46 +80,13 @@ export function RandomGeneratorView({
   };
 
   return (
-    <Card title="Random Number Generator">
+    <Card title="">
       <div className="space-y-4">
-        {/* Generate Button */}
-        <div className="text-center">
-          <Button
-            onClick={handleGenerateNumber}
-            className="px-8 py-4 text-lg font-semibold"
-          >
-            Generate Random Number
-          </Button>
-        </div>
-
-        {/* Display Area for Generated Number */}
-        {randomNumber !== null && (
-          <div className="mt-6 rounded bg-gray-700 p-4">
-            <h4 className="mb-2 text-sm font-medium text-gray-300">
-              Generated Number:
-            </h4>
-            <div className="font-mono text-2xl font-bold break-all text-white">
-              {randomNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </div>
-            <div className="mt-2 text-xs text-gray-400">
-              Cryptographically secure • {randomNumber.toString().length} digits
-            </div>
-          </div>
-        )}
-
-        {/* Placeholder when no number generated */}
-        {randomNumber === null && (
-          <div className="mt-6 rounded bg-gray-800 p-4 text-center text-gray-400">
-            Click the button above to generate a cryptographically secure random
-            number
-          </div>
-        )}
-
         {/* History Section */}
-        <div className="mt-8 border-t border-gray-600 pt-6">
+        <div className="border-gray-600">
           <Button
             onClick={toggleHistory}
-            className="flex w-full items-center justify-between rounded bg-gray-700 px-4 py-3 text-left hover:bg-gray-600"
+            className="flex w-full items-center justify-between rounded px-4 py-3 text-left"
           >
             <span className="font-medium">
               History {history.length > 0 && `(${history.length} entries)`}
@@ -239,7 +213,13 @@ export function RandomGeneratorView({
                                       Entry Size:
                                     </span>
                                     <span className="ml-1 text-gray-200">
-                                      {JSON.stringify(entry).length} bytes
+                                      {
+                                        JSON.stringify({
+                                          ...entry,
+                                          number: entry.number.toString(),
+                                        }).length
+                                      }{" "}
+                                      bytes
                                     </span>
                                   </div>
                                 </div>
@@ -254,6 +234,46 @@ export function RandomGeneratorView({
               )}
             </div>
           )}
+        </div>
+
+        {/* Display Area for Generated Number or Loader */}
+        <div className="mt-6 flex min-h-[120px] items-center justify-center rounded-lg border border-white/10 bg-gradient-to-br from-gray-800 to-gray-900 p-4 shadow-inner">
+          {loading ? (
+            <div className="flex flex-col items-center space-y-2">
+              <Loader />
+              <p className="text-sm text-gray-300">
+                Generating random number...
+              </p>
+            </div>
+          ) : randomNumber !== null ? (
+            <div className="w-full">
+              <h4 className="mb-2 text-sm font-medium text-gray-300">
+                Generated Number:
+              </h4>
+              <div className="bg-gradient-to-r from-pink-300 to-red-300 bg-clip-text font-mono text-2xl font-bold break-all text-transparent">
+                {randomNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </div>
+              <div className="mt-2 text-xs text-gray-400">
+                Cryptographically secure • {randomNumber.toString().length}{" "}
+                digits
+              </div>
+            </div>
+          ) : (
+            <div className="text-center text-gray-400">
+              Click the button above to generate a cryptographically secure
+              random number
+            </div>
+          )}
+        </div>
+
+        {/* Generate Button */}
+        <div className="text-center">
+          <Button
+            onClick={handleGenerateNumber}
+            className="lava-flow border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 px-12 py-6 text-xl font-bold shadow-2xl hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
+          >
+            Generate Random Number
+          </Button>
         </div>
       </div>
     </Card>

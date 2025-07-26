@@ -9,7 +9,7 @@ export interface CallContext {
 }
 
 export interface RandomNumberEntry {
-  number: number;
+  number: bigint;
   timestamp: number; // IC timestamp in nanoseconds
   sequence_id: number;
   call_context: CallContext;
@@ -38,7 +38,7 @@ export type HistoryApiResponse<T> =
 export const convertRandomNumberEntry = (
   backendEntry: any,
 ): RandomNumberEntry => ({
-  number: Number(backendEntry.number),
+  number: BigInt(backendEntry.number),
   timestamp: Number(backendEntry.timestamp),
   sequence_id: Number(backendEntry.sequence_id),
   call_context: {

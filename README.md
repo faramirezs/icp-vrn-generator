@@ -435,7 +435,6 @@ Leverage ICP's unique architecture to provide:
    ```
 
 2. **Create Random Number UI Component**
-
    - Generate button with loading states
    - Display random numbers in multiple formats
    - Copy to clipboard functionality

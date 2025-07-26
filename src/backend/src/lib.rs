@@ -55,7 +55,7 @@ thread_local! {
 
 #[ic_cdk::query]
 fn greet(name: String) -> String {
-    format!("Hello, {}!", name)
+    format!("Hello, {name}!")
 }
 
 #[ic_cdk::update]
@@ -133,7 +133,7 @@ async fn generate_random_number() -> Result<u64, String> {
             // Return the random number (backward compatibility maintained)
             Ok(random_number)
         }
-        Err(e) => Err(format!("Failed to generate random number: {:?}", e)),
+        Err(e) => Err(format!("Failed to generate random number: {e:?}")),
     }
 }
 
