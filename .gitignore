@@ -23,3 +23,54 @@ dist/
 # environment variables
 .env
 package-lock.json
+
+# Python virtual environments and dependencies
+venv/
+**/venv/
+src/quantum-validator/venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Node.js dependencies
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Build outputs
+dist/
+build/
+.build/
+.svelte-kit/
+.next/
+.nuxt/
+
+# Package manager lock files (too large for version control)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cargo lock file (can be large)
+Cargo.lock

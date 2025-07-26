@@ -61,7 +61,8 @@ interface QuantumValidationViewProps {
 
 const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
   const [isValidating, setIsValidating] = useState(false);
-  const [validationResult, setValidationResult] = useState<QuantumValidationResult | null>(null);
+  const [validationResult, setValidationResult] =
+    useState<QuantumValidationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<string>("");
   const [useRealQuantum, setUseRealQuantum] = useState(false);
@@ -81,11 +82,13 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
 
     const poll = async (): Promise<void> => {
       try {
-        const response = await fetch(`http://localhost:8000/validation-status/${jobId}`);
+        const response = await fetch(
+          `http://localhost:8000/validation-status/${jobId}`,
+        );
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         const result: QuantumValidationResult = await response.json();
         console.log("Polling result:", result);
 
@@ -105,7 +108,7 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
           } else {
             setProgress("⏳ Preparing quantum validation...");
           }
-          
+
           attempts++;
           // Continue polling
           setTimeout(() => poll(), 5000); // Poll every 5 seconds
@@ -151,7 +154,9 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
         } catch (genError) {
           console.warn("Could not generate additional numbers:", genError);
           if (icpNumbers.length === 0) {
-            throw new Error("No ICP random numbers available. Please generate some random numbers first.");
+            throw new Error(
+              "No ICP random numbers available. Please generate some random numbers first.",
+            );
           }
         }
       }
@@ -159,17 +164,20 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
       setProgress("🚀 Starting quantum validation...");
 
       // Send to quantum validation service
-      const response = await fetch("http://localhost:8000/validate-randomness", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "http://localhost:8000/validate-randomness",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            icp_numbers: icpNumbers,
+            quantum_sample_size: Math.max(icpNumbers.length, 50),
+            use_real_quantum: useRealQuantum,
+          }),
         },
-        body: JSON.stringify({
-          icp_numbers: icpNumbers,
-          quantum_sample_size: Math.max(icpNumbers.length, 50),
-          use_real_quantum: useRealQuantum,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -177,7 +185,7 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
 
       const startResult = await response.json();
       console.log("Validation started:", startResult);
-      
+
       if (startResult.job_id) {
         setProgress("⚡ Quantum validation job started...");
         // Start polling for results
@@ -185,10 +193,10 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
       } else {
         throw new Error("No job ID returned from validation service");
       }
-
     } catch (err) {
       console.error("❌ Quantum validation error:", err);
-      const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+      const errorMessage =
+        err instanceof Error ? err.message : "Unknown error occurred";
       setError(errorMessage);
       onError(errorMessage);
       setIsValidating(false);
@@ -199,14 +207,15 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
     <Card title="🔬 Quantum Randomness Validation">
       <div className="space-y-6">
         {/* Info Section */}
-        <div className="rounded-lg bg-blue-900/30 border border-blue-500/30 p-4">
-          <h4 className="font-semibold text-blue-300 mb-2">
+        <div className="rounded-lg border border-blue-500/30 bg-blue-900/30 p-4">
+          <h4 className="mb-2 font-semibold text-blue-300">
             🌟 World-First Quantum Validation
           </h4>
           <p className="text-sm text-blue-100">
-            This feature uses IBM Quantum computers to validate that ICP's randomness 
-            meets quantum-level standards. We compare your generated random numbers 
-            against quantum random numbers using statistical tests.
+            This feature uses IBM Quantum computers to validate that ICP's
+            randomness meets quantum-level standards. We compare your generated
+            random numbers against quantum random numbers using statistical
+            tests.
           </p>
         </div>
 
@@ -224,7 +233,7 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
             </span>
           </label>
           {!useRealQuantum && (
-            <p className="text-xs text-gray-400 ml-6">
+            <p className="ml-6 text-xs text-gray-400">
               Using quantum simulator for fast demonstration
             </p>
           )}
@@ -237,13 +246,15 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
             disabled={isValidating}
             className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-8 py-4 text-lg font-bold shadow-2xl hover:from-blue-600 hover:via-purple-600 hover:to-pink-600"
           >
-            {isValidating ? "🔬 Validating..." : "🚀 Prove Quantum-Level Randomness"}
+            {isValidating
+              ? "🔬 Validating..."
+              : "🚀 Prove Quantum-Level Randomness"}
           </Button>
         </div>
 
         {/* Progress */}
         {isValidating && (
-          <div className="text-center space-y-2">
+          <div className="space-y-2 text-center">
             <Loader />
             <p className="text-sm text-gray-300">{progress}</p>
           </div>
@@ -251,11 +262,13 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
 
         {/* Error Display */}
         {error && (
-          <div className="rounded-lg bg-red-900/30 border border-red-500/30 p-4">
-            <div className="text-center space-y-2">
+          <div className="rounded-lg border border-red-500/30 bg-red-900/30 p-4">
+            <div className="space-y-2 text-center">
               <div className="text-3xl">⚠️</div>
-              <h3 className="text-lg font-semibold text-red-300">Validation Error</h3>
-              <p className="text-red-200 text-sm">{error}</p>
+              <h3 className="text-lg font-semibold text-red-300">
+                Validation Error
+              </h3>
+              <p className="text-sm text-red-200">{error}</p>
             </div>
           </div>
         )}
@@ -264,17 +277,22 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
         {validationResult && validationResult.status === "completed" && (
           <div className="space-y-6">
             {/* Overall Result */}
-            <div className={`rounded-lg border p-4 ${
-              validationResult.icp_stats?.overall_random 
-                ? "bg-green-900/30 border-green-500/30" 
-                : "bg-red-900/30 border-red-500/30"
-            }`}>
+            <div
+              className={`rounded-lg border p-4 ${
+                validationResult.icp_stats?.overall_random
+                  ? "border-green-500/30 bg-green-900/30"
+                  : "border-red-500/30 bg-red-900/30"
+              }`}
+            >
               <div className="flex items-center justify-between">
                 <h4 className="text-lg font-bold">
-                  {validationResult.icp_stats?.overall_random ? "✅ ICP QUANTUM-LEVEL RANDOMNESS VALIDATED" : "❌ ICP VALIDATION FAILED"}
+                  {validationResult.icp_stats?.overall_random
+                    ? "✅ ICP QUANTUM-LEVEL RANDOMNESS VALIDATED"
+                    : "❌ ICP VALIDATION FAILED"}
                 </h4>
                 <div className="text-sm text-gray-300">
-                  {validationResult.completed_at && new Date(validationResult.completed_at).toLocaleString()}
+                  {validationResult.completed_at &&
+                    new Date(validationResult.completed_at).toLocaleString()}
                 </div>
               </div>
               <p className="mt-2 text-sm">
@@ -289,45 +307,80 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
               {/* ICP Statistics */}
               {validationResult.icp_stats && (
                 <div className="rounded-lg bg-gray-800 p-4">
-                  <h5 className="font-semibold text-pink-400 mb-3">
+                  <h5 className="mb-3 font-semibold text-pink-400">
                     🔮 ICP Random Numbers Analysis
                   </h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span>Sample Size:</span>
-                      <span className="font-mono">{validationResult.icp_stats.count}</span>
+                      <span className="font-mono">
+                        {validationResult.icp_stats.count}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Mean:</span>
-                      <span className="font-mono">{validationResult.icp_stats.mean.toExponential(2)}</span>
+                      <span className="font-mono">
+                        {validationResult.icp_stats.mean.toExponential(2)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Std Dev:</span>
-                      <span className="font-mono">{validationResult.icp_stats.std.toExponential(2)}</span>
+                      <span className="font-mono">
+                        {validationResult.icp_stats.std.toExponential(2)}
+                      </span>
                     </div>
-                    
-                    <div className="border-t border-gray-700 pt-2 mt-3">
-                      <h6 className="font-medium text-gray-300 mb-2">NIST Test Results</h6>
+
+                    <div className="mt-3 border-t border-gray-700 pt-2">
+                      <h6 className="mb-2 font-medium text-gray-300">
+                        NIST Test Results
+                      </h6>
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Frequency Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.icp_stats.passes_frequency)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.icp_stats.frequency_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.icp_stats.passes_frequency,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.icp_stats.frequency_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Runs Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.icp_stats.passes_runs)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.icp_stats.runs_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.icp_stats.passes_runs,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.icp_stats.runs_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Uniformity Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.icp_stats.passes_uniformity)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.icp_stats.uniformity_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.icp_stats.passes_uniformity,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.icp_stats.uniformity_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -339,45 +392,82 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
               {/* Quantum Statistics */}
               {validationResult.quantum_stats && (
                 <div className="rounded-lg bg-gray-800 p-4">
-                  <h5 className="font-semibold text-blue-400 mb-3">
+                  <h5 className="mb-3 font-semibold text-blue-400">
                     ⚛️ Quantum Numbers Analysis
                   </h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span>Sample Size:</span>
-                      <span className="font-mono">{validationResult.quantum_stats.count}</span>
+                      <span className="font-mono">
+                        {validationResult.quantum_stats.count}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Mean:</span>
-                      <span className="font-mono">{validationResult.quantum_stats.mean.toExponential(2)}</span>
+                      <span className="font-mono">
+                        {validationResult.quantum_stats.mean.toExponential(2)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Std Dev:</span>
-                      <span className="font-mono">{validationResult.quantum_stats.std.toExponential(2)}</span>
+                      <span className="font-mono">
+                        {validationResult.quantum_stats.std.toExponential(2)}
+                      </span>
                     </div>
-                    
-                    <div className="border-t border-gray-700 pt-2 mt-3">
-                      <h6 className="font-medium text-gray-300 mb-2">NIST Test Results</h6>
+
+                    <div className="mt-3 border-t border-gray-700 pt-2">
+                      <h6 className="mb-2 font-medium text-gray-300">
+                        NIST Test Results
+                      </h6>
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Frequency Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.quantum_stats.passes_frequency)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.quantum_stats.frequency_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.quantum_stats.passes_frequency,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.quantum_stats.frequency_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Runs Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.quantum_stats.passes_runs)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.quantum_stats.runs_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.quantum_stats.passes_runs,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.quantum_stats.runs_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <span>Uniformity Test:</span>
                           <span className="flex items-center space-x-2">
-                            <span>{getTestStatusIcon(validationResult.quantum_stats.passes_uniformity)}</span>
-                            <span className="font-mono text-xs">p={formatPValue(validationResult.quantum_stats.uniformity_test_p)}</span>
+                            <span>
+                              {getTestStatusIcon(
+                                validationResult.quantum_stats
+                                  .passes_uniformity,
+                              )}
+                            </span>
+                            <span className="font-mono text-xs">
+                              p=
+                              {formatPValue(
+                                validationResult.quantum_stats
+                                  .uniformity_test_p,
+                              )}
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -390,16 +480,23 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
             {/* Comparison Results */}
             {validationResult.comparison_results && (
               <div className="rounded-lg bg-gray-800 p-4">
-                <h5 className="font-semibold text-purple-400 mb-3">
+                <h5 className="mb-3 font-semibold text-purple-400">
                   📊 ICP vs Quantum Comparison
                 </h5>
                 <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span>Kolmogorov-Smirnov Test:</span>
                     <span className="flex items-center space-x-2">
-                      <span>{getTestStatusIcon(validationResult.comparison_results.sequences_similar)}</span>
+                      <span>
+                        {getTestStatusIcon(
+                          validationResult.comparison_results.sequences_similar,
+                        )}
+                      </span>
                       <span className="font-mono text-xs">
-                        p={formatPValue(validationResult.comparison_results.ks_test_p_value)}
+                        p=
+                        {formatPValue(
+                          validationResult.comparison_results.ks_test_p_value,
+                        )}
                       </span>
                     </span>
                   </div>
@@ -408,15 +505,25 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
                       ? "✅ Sequences are statistically similar (p {'>'} 0.05)"
                       : "❌ Sequences are significantly different (p ≤ 0.05)"}
                   </div>
-                  
-                  <div className="border-t border-gray-700 pt-2 mt-3">
+
+                  <div className="mt-3 border-t border-gray-700 pt-2">
                     <div className="flex justify-between">
                       <span>ICP passes all tests:</span>
-                      <span>{getTestStatusIcon(validationResult.comparison_results.icp_passes_all_tests)}</span>
+                      <span>
+                        {getTestStatusIcon(
+                          validationResult.comparison_results
+                            .icp_passes_all_tests,
+                        )}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Quantum passes all tests:</span>
-                      <span>{getTestStatusIcon(validationResult.comparison_results.quantum_passes_all_tests)}</span>
+                      <span>
+                        {getTestStatusIcon(
+                          validationResult.comparison_results
+                            .quantum_passes_all_tests,
+                        )}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -424,11 +531,13 @@ const QuantumValidationView = ({ onError }: QuantumValidationViewProps) => {
             )}
 
             {/* Technical Note */}
-            <div className="rounded-lg bg-gray-900/50 border border-gray-700 p-3">
+            <div className="rounded-lg border border-gray-700 bg-gray-900/50 p-3">
               <p className="text-xs text-gray-400">
-                <strong>Note:</strong> All p-values {'>'}  0.01 indicate the sequence passes the randomness test. 
-                The Kolmogorov-Smirnov test compares the distributions of ICP and quantum numbers - 
-                a p-value {'>'} 0.05 means they are statistically similar, proving ICP's randomness quality.
+                <strong>Note:</strong> All p-values {">"} 0.01 indicate the
+                sequence passes the randomness test. The Kolmogorov-Smirnov test
+                compares the distributions of ICP and quantum numbers - a
+                p-value {">"} 0.05 means they are statistically similar, proving
+                ICP's randomness quality.
               </p>
             </div>
           </div>

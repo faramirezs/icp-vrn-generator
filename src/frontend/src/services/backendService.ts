@@ -149,11 +149,11 @@ export const backendService = {
     try {
       const result = await backend.export_recent_randoms(BigInt(count));
       // Convert backend results to regular numbers to avoid BigInt issues
-      return Array.from(result).map(n => {
+      return Array.from(result).map((n) => {
         // Handle the conversion safely - avoid BigInt precision issues
-        if (typeof n === 'bigint') {
+        if (typeof n === "bigint") {
           return Number(n);
-        } else if (typeof n === 'number') {
+        } else if (typeof n === "number") {
           return n;
         } else {
           // Fallback conversion
@@ -161,7 +161,7 @@ export const backendService = {
         }
       });
     } catch (error) {
-      console.error('Error in exportRecentRandoms:', error);
+      console.error("Error in exportRecentRandoms:", error);
       throw error;
     }
   },

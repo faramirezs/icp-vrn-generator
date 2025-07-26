@@ -206,20 +206,20 @@ async fn generate_random_batch(count: u64) -> Result<Vec<u64>, String> {
     if count == 0 {
         return Err("Count must be greater than 0".to_string());
     }
-    
+
     if count > 10000 {
         return Err("Count too large (maximum 10000 for batch generation)".to_string());
     }
-    
+
     let mut random_numbers = Vec::new();
-    
+
     for _ in 0..count {
         match raw_rand().await {
             Ok((random_bytes,)) => {
                 if random_bytes.len() < 8 {
                     return Err("Insufficient random bytes received".to_string());
                 }
-                
+
                 let mut bytes = [0u8; 8];
                 bytes.copy_from_slice(&random_bytes[0..8]);
                 let random_number = u64::from_be_bytes(bytes);
@@ -228,7 +228,7 @@ async fn generate_random_batch(count: u64) -> Result<Vec<u64>, String> {
             Err(e) => return Err(format!("Failed to generate random number: {e:?}")),
         }
     }
-    
+
     Ok(random_numbers)
 }
 
@@ -237,7 +237,7 @@ fn export_recent_randoms(count: u64) -> Vec<u64> {
     RANDOM_HISTORY.with(|history| {
         let entries = history.borrow();
         let recent_count = std::cmp::min(count as usize, entries.len());
-        
+
         entries
             .iter()
             .rev() // Most recent first

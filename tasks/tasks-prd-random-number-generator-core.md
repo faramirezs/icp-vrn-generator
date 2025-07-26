@@ -20,6 +20,7 @@
 ## Tasks
 
 - [x] 1.0 Implement Backend Random Number Generation
+
   - [x] 1.1 Add the `ic_cdk::api::management_canister::raw_rand` import to `src/backend/src/lib.rs`
   - [x] 1.2 Create the `generate_random_number()` async function with `#[ic_cdk::update]` macro
   - [x] 1.3 Implement error handling for `raw_rand()` API call failures
@@ -29,6 +30,7 @@
   - [x] 1.7 Run `npm run generate-candid` to update TypeScript declarations
 
 - [x] 2.0 Create Frontend Random Generator View
+
   - [x] 2.1 Create `src/frontend/src/views/RandomGeneratorView.tsx` following existing view patterns
   - [x] 2.2 Import required components: `Button`, `Card`, and existing error/loading components
   - [x] 2.3 Add component props interface matching `CounterView` pattern (`onError`, `setLoading`)
@@ -41,6 +43,7 @@
   - [x] 2.10 Apply consistent Tailwind CSS styling matching existing components
 
 - [x] 3.0 Integrate Random Generator into Application
+
   - [x] 3.1 Add `generateRandomNumber()` function to `src/frontend/src/services/backendService.ts`
   - [x] 3.2 Implement proper TypeScript typing for the new service function
   - [x] 3.3 Add error handling and async/await patterns consistent with existing service functions
@@ -50,6 +53,7 @@
   - [x] 3.7 Ensure the view receives proper `onError` and `setLoading` props from App state
 
 - [ ] 4.0 Add Comprehensive Testing
+
   - [x] 4.1 Create `src/frontend/src/views/RandomGeneratorView.test.tsx` with component rendering tests
   - [x] 4.2 Add unit tests for button click behavior and loading states
   - [ ] 4.3 Test error handling scenarios with mock backend failures

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🚀 **REVOLUTIONARY FEATURES ADDED**
 
 #### ⚛️ World-First Quantum Validation System
+
 - **Quantum Validation Service**: Complete FastAPI service using IBM Qiskit for quantum randomness validation
 - **NIST Statistical Test Suite**: Implementation of frequency test, runs test, and uniformity test
 - **Quantum vs ICP Comparison**: Kolmogorov-Smirnov statistical comparison proving ICP randomness quality
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Statistical Analysis**: Comprehensive randomness analysis with pass/fail indicators
 
 #### 🎲 Complete Random Number Generator
+
 - **ICP Raw Rand Integration**: Full implementation using `ic_cdk::api::management_canister::raw_rand()`
 - **Custom Range Support**: Generate numbers within any specified range (min, max)
 - **Batch Generation**: Efficient generation of multiple random numbers
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Error Handling**: Robust error management with user-friendly feedback
 
 #### 🎨 Advanced Frontend Features
+
 - **Random Generator View**: Beautiful UI with dice animations and visual feedback
 - **Quantum Validation View**: Comprehensive interface for quantum validation results
 - **Dice Animation Component**: Smooth rolling animations for engaging user experience
@@ -34,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Responsive Design**: Perfect experience across desktop, tablet, and mobile
 
 #### 🔧 Backend Enhancements
+
 - **Random Generation Functions**: `generate_random_number`, `generate_random_batch`
 - **History Management**: `get_random_history`, `export_recent_randoms`
 - **Type Safety**: Complete Candid interface definitions with TypeScript bindings
@@ -43,18 +47,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 📊 **TECHNICAL ACHIEVEMENTS**
 
 #### Statistical Validation
+
 - **NIST Frequency Test**: Verifies equal distribution of binary values
 - **NIST Runs Test**: Analyzes consecutive bit patterns for randomness
 - **Chi-Square Uniformity Test**: Confirms uniform distribution across value ranges
 - **Kolmogorov-Smirnov Test**: Statistical comparison between ICP and quantum sequences
 
 #### Performance Metrics
+
 - **Sub-second Random Generation**: Instant response times for single and batch generation
 - **Quantum Validation Speed**: Fast quantum simulation with real-time progress tracking
 - **Scalable Architecture**: Handles thousands of random number requests per second
 - **Memory Efficient**: Optimized storage and retrieval of random number history
 
 #### Security Features
+
 - **Cryptographic Security**: Uses ICP's consensus-based randomness for true unpredictability
 - **Verifiable Results**: All random numbers traceable and verifiable on-chain
 - **No External Dependencies**: Pure ICP implementation without oracle or external services
@@ -63,12 +70,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🛠 **INFRASTRUCTURE IMPROVEMENTS**
 
 #### Development Environment
+
 - **Quantum Development Setup**: Python virtual environment with Qiskit and FastAPI
 - **TypeScript Integration**: Complete type safety across frontend and backend
 - **Modern Build System**: Vite with hot reloading and optimized production builds
 - **Testing Infrastructure**: Comprehensive test coverage including quantum validation
 
 #### Documentation
+
 - **Complete API Documentation**: Full endpoint documentation with examples
 - **Quantum Validation Guide**: Step-by-step guide for using quantum validation features
 - **Statistical Test Explanations**: Detailed explanations of NIST tests and interpretation
@@ -77,11 +86,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔄 **MIGRATION & COMPATIBILITY**
 
 #### Breaking Changes
+
 - **New API Endpoints**: Added quantum validation and random generation endpoints
 - **Enhanced State Structure**: Extended random number storage with metadata
 - **Updated Frontend Routes**: New navigation structure with quantum validation tab
 
 #### Backward Compatibility
+
 - **Existing Functions Preserved**: All original greeting, counter, and LLM functions remain unchanged
 - **State Migration**: Automatic migration of existing counter state
 - **API Versioning**: Maintained compatibility with existing frontend integrations

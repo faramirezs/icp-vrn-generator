@@ -35,6 +35,7 @@ Once started, you'll have access to:
 ## How to Use
 
 ### 1. Generate Random Numbers
+
 1. Open the frontend URL in your browser
 2. Navigate to the "Random Generator" tab
 3. Set your desired range (e.g., 1-6 for dice)
@@ -42,6 +43,7 @@ Once started, you'll have access to:
 5. Generate at least 10 numbers for best quantum validation results
 
 ### 2. Validate Quantum-Level Randomness
+
 1. Switch to the "Quantum Validation" tab
 2. Click "🚀 Prove Quantum-Level Randomness"
 3. Watch the magic happen as the system:
@@ -57,19 +59,25 @@ Press **Ctrl+C** in the terminal where you ran the script. It will cleanly stop 
 ## Troubleshooting
 
 ### Port Conflicts
+
 If ports are already in use, the script will:
+
 - Use existing DFX replica if port 4943 is busy
-- Kill existing quantum service if port 8000 is busy  
+- Kill existing quantum service if port 8000 is busy
 - Find next available port (5174) if frontend port 5173 is busy
 
 ### Prerequisites Missing
+
 The script will tell you exactly which tool is missing and how to install it:
+
 - **dfx**: `sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"`
 - **Node.js**: Install Node.js 18+ from nodejs.org
 - **Python**: Install Python 3.8+ from python.org
 
 ### Service Not Starting
+
 The script includes health checks and will report which service failed to start. Common issues:
+
 - **DFX**: May need `dfx stop` first to clean up previous state
 - **Quantum Service**: Check that Python virtual environment was created properly
 - **Frontend**: May need `npm install` if dependencies are missing
