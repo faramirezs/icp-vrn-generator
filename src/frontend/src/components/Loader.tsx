@@ -45,12 +45,12 @@ export function Loader() {
   useEffect(() => {
     const rollDice = () => {
       setIsRolling(true);
-      
+
       // Change numbers rapidly while spinning
       const rapidChange = setInterval(() => {
         setDiceValue(Math.floor(Math.random() * 6) + 1);
       }, 100); // Change every 100ms while spinning
-      
+
       // Stop spinning and rapid changes, then set final value
       setTimeout(() => {
         clearInterval(rapidChange);
@@ -61,7 +61,7 @@ export function Loader() {
 
     // Initial roll
     rollDice();
-    
+
     // Continue rolling every 3 seconds (1.2s animation + 1.8s pause)
     const interval = setInterval(rollDice, 3000);
 
@@ -70,18 +70,14 @@ export function Loader() {
 
   return (
     <div className="mx-auto mt-8 flex justify-center">
-      <div 
-        className={`relative h-16 w-16 rounded-lg bg-white border-2 border-gray-300 shadow-lg ${
-          isRolling ? 'dice-rolling' : ''
+      <div
+        className={`relative h-16 w-16 rounded-lg border-2 border-gray-300 bg-white shadow-lg ${
+          isRolling ? "dice-rolling" : ""
         }`}
-        style={{ perspective: '200px' }}
+        style={{ perspective: "200px" }}
       >
         {diceFaces[diceValue as keyof typeof diceFaces].map((dot, index) => (
-          <div
-            key={index}
-            className="dice-dot"
-            style={dot}
-          />
+          <div key={index} className="dice-dot" style={dot} />
         ))}
       </div>
     </div>
