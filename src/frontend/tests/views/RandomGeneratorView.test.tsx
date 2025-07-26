@@ -43,6 +43,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -64,6 +65,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -93,6 +95,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -120,6 +123,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -142,6 +146,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -162,6 +167,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -196,6 +202,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -215,6 +222,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -243,6 +251,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -272,6 +281,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -303,6 +313,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
@@ -322,6 +333,7 @@ describe("RandomGeneratorView", () => {
         <RandomGeneratorView
           onError={mockOnError}
           setLoading={mockSetLoading}
+          loading={false}
         />
       </StrictMode>,
     );
