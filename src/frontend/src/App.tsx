@@ -3,7 +3,7 @@ import Logo from "../public/android-chrome-512x512.png";
 
 // Import components and views
 import { ErrorDisplay } from "./components";
-import { RandomGeneratorView } from "./views";
+import { RandomGeneratorView, QuantumValidationView } from "./views";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,9 @@ function App() {
             setLoading={setLoading}
             loading={loading}
           />
+
+          {/* Quantum Validation Section */}
+          <QuantumValidationView onError={handleError} />
         </div>
 
         {/* Error States */}

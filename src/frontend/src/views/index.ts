@@ -1,3 +1,2 @@
-// Export all views from a single file for easier imports
-export * from "./RandomGeneratorView";
-export * from "./RandomGeneratorView";
+export { RandomGeneratorView } from "./RandomGeneratorView";
+export { default as QuantumValidationView } from "./QuantumValidationView";

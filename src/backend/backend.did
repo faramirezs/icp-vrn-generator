@@ -21,7 +21,8 @@ type RandomNumberEntry = record {
   sequence_id : nat64;
   call_context : CallContext;
 };
-type Result = variant { Ok : nat64; Err : text };
+type Result = variant { Ok : vec nat64; Err : text };
+type Result_1 = variant { Ok : nat64; Err : text };
 type SequenceIntegrityStatus = record {
   total_entries : nat64;
   detected_gaps : vec nat64;
@@ -33,7 +34,9 @@ type ToolCall = record { id : text; function : FunctionCall };
 type ToolCallArgument = record { value : text; name : text };
 service : {
   chat : (vec ChatMessage) -> (text);
-  generate_random_number : () -> (Result);
+  export_recent_randoms : (nat64) -> (vec nat64) query;
+  generate_random_batch : (nat64) -> (Result);
+  generate_random_number : () -> (Result_1);
   get_count : () -> (nat64) query;
   get_history_count : () -> (nat64) query;
   get_random_history : () -> (vec RandomNumberEntry) query;

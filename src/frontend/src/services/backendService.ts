@@ -125,4 +125,44 @@ export const backendService = {
       };
     }
   },
+
+  /**
+   * Generates a batch of random numbers for quantum validation
+   * @param count Number of random numbers to generate
+   * @returns Promise with the generated random numbers
+   */
+  async generateRandomBatch(count: number): Promise<bigint[]> {
+    const result = await backend.generate_random_batch(BigInt(count));
+    if ("Ok" in result) {
+      return Array.from(result.Ok);
+    } else {
+      throw new Error(result.Err);
+    }
+  },
+
+  /**
+   * Exports recent random numbers from history
+   * @param count Number of recent numbers to export
+   * @returns Promise with the exported numbers
+   */
+  async exportRecentRandoms(count: number): Promise<number[]> {
+    try {
+      const result = await backend.export_recent_randoms(BigInt(count));
+      // Convert backend results to regular numbers to avoid BigInt issues
+      return Array.from(result).map(n => {
+        // Handle the conversion safely - avoid BigInt precision issues
+        if (typeof n === 'bigint') {
+          return Number(n);
+        } else if (typeof n === 'number') {
+          return n;
+        } else {
+          // Fallback conversion
+          return Number(String(n));
+        }
+      });
+    } catch (error) {
+      console.error('Error in exportRecentRandoms:', error);
+      throw error;
+    }
+  },
 };
