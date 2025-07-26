@@ -25,7 +25,6 @@
 ## Tasks
 
 - [ ] 1.0 Remove Unused Template Components and Update Imports
-
   - [x] 1.1 Delete `src/frontend/src/views/GreetingView.tsx` file completely
   - [x] 1.2 Delete `src/frontend/src/views/CounterView.tsx` file completely
   - [x] 1.3 Delete `src/frontend/src/views/LlmPromptView.tsx` file completely
@@ -35,7 +34,6 @@
   - [ ] 1.7 Verify application builds successfully with `npm run build` after component removal
 
 - [ ] 2.0 Update Application Branding and Content
-
   - [ ] 2.1 Replace main title "Vibe Coding Template" with "ICP Auditable Random Number Service" in App.tsx
   - [ ] 2.2 Update subtitle from "React + Rust + Internet Computer" to "Cryptographically Secure Random Numbers with Full Audit Trail"
   - [ ] 2.3 Remove or update any remaining "Vibe Coding Template" references in comments or documentation
@@ -43,7 +41,6 @@
   - [ ] 2.5 Verify new branding displays correctly in the browser
 
 - [ ] 3.0 Create 3D Dice Animation Component
-
   - [ ] 3.1 Create new file `src/frontend/src/components/DiceAnimation.tsx` with basic React component structure
   - [ ] 3.2 Implement 3D dice faces using CSS transforms and positioned div elements for pixel art style
   - [ ] 3.3 Create CSS keyframe animation for continuous slow rotation (4-second duration)
@@ -55,7 +52,6 @@
   - [ ] 3.9 Test dice animation performance and ensure smooth 60fps rotation
 
 - [ ] 4.0 Integrate Dice Animation and Update Layout
-
   - [ ] 4.1 Import DiceAnimation component in `src/frontend/src/App.tsx`
   - [ ] 4.2 Replace React logo img element with DiceAnimation component in the same location
   - [ ] 4.3 Remove React logo import and related href link wrapper
