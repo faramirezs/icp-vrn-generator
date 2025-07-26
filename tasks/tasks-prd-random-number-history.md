@@ -1,11 +1,12 @@
 ## Relevant Files
 
-- `src/backend/src/lib.rs` - Main canister implementation where RandomNumberEntry struct and storage functions will be added.
+- `src/backend/src/lib.rs` - Main canister implementation where RandomNumberEntry struct and storage functions have been added (MODIFIED).
+- `src/backend/Cargo.toml` - Added serde dependency for serialization support (MODIFIED).
 - `src/backend/backend.did` - Candid interface file that needs to be updated to include new history and audit functions.
 - `src/frontend/src/services/backendService.ts` - Backend service layer where new history and audit API calls will be added.
 - `src/frontend/src/views/RandomGeneratorView.tsx` - Existing view component that will be extended with history display section.
 - `src/frontend/src/components/` - Potential location for new reusable components like HistoryList, AuditDetails, etc.
-- `src/declarations/backend/` - Auto-generated TypeScript declarations (will be updated after Candid generation).
+- `src/declarations/backend/` - Auto-generated TypeScript declarations (updated after Candid generation).
 - `tests/src/backend.test.ts` - Backend integration tests where history storage and audit tests will be added.
 - `src/frontend/tests/views/RandomGeneratorView.test.tsx` - Unit tests that need to be updated for new history functionality.
 - `src/frontend/tests/services/backendService.test.ts` - Service layer tests for new history functions (to be created).
@@ -37,14 +38,14 @@
   - [x] 1.6 **🟡** Implement `verify_sequence_integrity()` query function to detect gaps in sequence numbers and return integrity status
   - [x] 1.7 **🟡** Add automatic cleanup function `clear_old_entries()` to maintain maximum 1000 entries using circular buffer behavior
 
-- [ ] 2.0 **🔴 MUST HAVE** - Modify Random Number Generation to Store History
+- [x] 2.0 **🔴 MUST HAVE** - Modify Random Number Generation to Store History
 
-  - [ ] 2.1 **🔴** Modify existing `generate_random_number()` function to capture call context using `ic_cdk::api::caller()` and `ic_cdk::api::time()`
-  - [ ] 2.2 **🔴** Add sequence ID generation and increment logic to each random number generation call
-  - [ ] 2.3 **🔴** Store `RandomNumberEntry` in thread_local storage after successful random number generation using `raw_rand()`
+  - [x] 2.1 **🔴** Modify existing `generate_random_number()` function to capture call context using `ic_cdk::api::caller()` and `ic_cdk::api::time()`
+  - [x] 2.2 **🔴** Add sequence ID generation and increment logic to each random number generation call
+  - [x] 2.3 **🔴** Store `RandomNumberEntry` in thread_local storage after successful random number generation using `raw_rand()`
   - [ ] 2.4 **🟡** Capture additional audit metadata: canister version and cycles consumed per operation
-  - [ ] 2.5 **🔴** Ensure existing random number generation functionality remains unchanged for backward compatibility
-  - [ ] 2.6 **🔴** Add proper error handling for storage operations without affecting random number generation success/failure
+  - [x] 2.5 **🔴** Ensure existing random number generation functionality remains unchanged for backward compatibility
+  - [x] 2.6 **🔴** Add proper error handling for storage operations without affecting random number generation success/failure
 
 - [ ] 3.0 **🔴 MUST HAVE** - Create Basic Frontend History Display
 

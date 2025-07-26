@@ -94,6 +94,43 @@ async fn generate_random_number() -> Result<u64, String> {
             bytes.copy_from_slice(&random_bytes[0..8]);
             let random_number = u64::from_be_bytes(bytes);
 
+            // Capture call context for audit trail
+            let caller = ic_cdk::api::caller();
+            let timestamp = ic_cdk::api::time();
+            
+            // Generate sequence ID and increment counter
+            let sequence_id = SEQUENCE_COUNTER.with(|counter| {
+                let current = *counter.borrow();
+                let next_id = current + 1;
+                *counter.borrow_mut() = next_id;
+                next_id
+            });
+
+            // Create call context for audit purposes
+            let call_context = CallContext {
+                caller_principal: Some(caller.to_text()),
+                execution_round: 0, // Placeholder - IC doesn't expose this directly
+                canister_version: 1, // Placeholder - will be enhanced in subtask 2.4
+                cycles_consumed: 0, // Placeholder - will be enhanced in subtask 2.4
+            };
+
+            // Create history entry
+            let entry = RandomNumberEntry {
+                number: random_number,
+                timestamp,
+                sequence_id,
+                call_context,
+            };
+
+            // Store in history (with error handling that doesn't affect random number generation)
+            let _store_result: Result<(), ()> = RANDOM_HISTORY.with(|history| {
+                history.borrow_mut().push(entry);
+                // Call cleanup function to maintain entry limit
+                clear_old_entries();
+                Ok(())
+            });
+
+            // Return the random number (backward compatibility maintained)
             Ok(random_number)
         }
         Err(e) => Err(format!("Failed to generate random number: {:?}", e)),
@@ -169,14 +206,18 @@ fn clear_old_entries() {
     RANDOM_HISTORY.with(|history| {
         let mut entries = history.borrow_mut();
         const MAX_ENTRIES: usize = 1000;
-        
+
         if entries.len() > MAX_ENTRIES {
             // Remove oldest entries (from the beginning) to maintain the limit
             let excess = entries.len() - MAX_ENTRIES;
             entries.drain(0..excess);
-            
+
             // Log cleanup action for debugging (using ic_cdk::println! for canister logs)
-            ic_cdk::println!("Cleaned up {} old entries, now storing {} entries", excess, entries.len());
+            ic_cdk::println!(
+                "Cleaned up {} old entries, now storing {} entries",
+                excess,
+                entries.len()
+            );
         }
     });
 }
