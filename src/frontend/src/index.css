@@ -9,12 +9,30 @@
   }
 }
 
-@keyframes loader-animation {
-  0% {
-    transform: perspective(150px) rotateX(0deg);
+@keyframes dice-roll {
+  0% { 
+    transform: translate(0, 0) rotate(0deg);
   }
-  100% {
-    transform: perspective(150px) rotateX(180deg);
+  15% { 
+    transform: translate(-3px, -2px) rotate(90deg);
+  }
+  30% { 
+    transform: translate(2px, -3px) rotate(180deg);
+  }
+  45% { 
+    transform: translate(-2px, 3px) rotate(270deg);
+  }
+  60% { 
+    transform: translate(3px, 2px) rotate(360deg);
+  }
+  75% { 
+    transform: translate(-1px, -1px) rotate(450deg);
+  }
+  90% { 
+    transform: translate(1px, 1px) rotate(540deg);
+  }
+  100% { 
+    transform: translate(0, 0) rotate(720deg);
   }
 }
 
@@ -22,6 +40,14 @@
   animation: logo-spin 60s linear infinite;
 }
 
-.loader-animation {
-  animation: loader-animation 1s infinite;
+.dice-rolling {
+  animation: dice-roll 1.2s ease-out;
+}
+
+.dice-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #374151;
+  border-radius: 50%;
+  position: absolute;
 }
